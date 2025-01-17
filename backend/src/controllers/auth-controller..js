@@ -75,6 +75,7 @@ module.exports = {
       updatedUser.email = email
     }
 
+    updatedUser.updatedAt = new Date().toLocaleString()
     const updatedData = updateUser(id, updatedUser)
     res.status(200).json(updatedData)
   },
@@ -83,7 +84,7 @@ module.exports = {
   delete: (req, res) => {
     const { id } = req.params
 
-    const user = deleteUser(id)
+    deleteUser(id)
     res.status(200).json({ message: 'Usuário deletado.' })
   }
 }
