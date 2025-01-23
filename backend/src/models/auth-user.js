@@ -13,17 +13,11 @@ const users = [
     updatedAt: new Date().toLocaleString(),
     followers: 0,
     following: 0,
-    posts: [ 
-      { 
-        postId: '1', 
-        postTitle: 'Primeiro Post', 
-        postContent: 'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem',
-        postLike: 0,
-        postCommit: []
-      }
-    ]
+    posts: []
   }
 ]
+
+module.exports = users
 
 module.exports = {
   getAllUsers: () => {
