@@ -24,7 +24,7 @@ module.exports = {
       postTitle: post.postTitle,
       postContent: post.postContent,
       likes: post.likes,
-      postCommit: []
+      postCommit: post.postCommit
      }
     )),
 
@@ -76,6 +76,14 @@ module.exports = {
     posts[index].likedBy.push({ id: userId, likedBy: actualUser.userName })
     posts[index].likes = posts[index].likedBy.length
 
+    return posts[index]
+  },
+
+  commitPost: (postId, userId, commit) => {
+    const index = posts.findIndex((post) => post.postId === postId)
+    if (index === -1) throw new HttpError(404, 'Post não encontrado.')
+
+    posts[index].postCommit.push({ userId, commit })
     return posts[index]
   }
 }

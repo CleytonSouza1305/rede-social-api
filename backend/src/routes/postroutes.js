@@ -8,5 +8,6 @@ postRouter.post('/feed/create', authenticate, postController.createPostReq)
 postRouter.put('/feed/:id', authenticate, postController.updatePostReq)
 postRouter.delete('/feed/:id', authenticate, postController.deletePostReq)
 postRouter.post('/feed/like/:id', authenticate, postController.likePostReq)
+postRouter.post('/feed/commit/:id', authenticate, postController.commitPostrReq)
 
 module.exports = postRouter

@@ -54,5 +54,19 @@ module.exports = {
     const likePost = postModel.likePost(id, user.id)
 
     res.status(200).json(likePost)
+  },
+
+  commitPostrReq: (req, res) => {
+    const { id } = req.params
+
+    const user = req.user
+    if (!user) throw new HttpError(404, 'Usuário não registrado.')
+
+    const { commit } = req.body
+    
+    if (!commit) throw new HttpError(400, 'O comentário não pode estar vazio.')
+    
+    const commitPost = postModel.commitPost(id, user.id, commit)
+    res.status(200).json(commitPost)
   }
 }
