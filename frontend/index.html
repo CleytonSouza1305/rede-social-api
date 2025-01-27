@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Login</title>
+
+  <link rel="stylesheet" href="./assets/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <main>
+    <div class="content">
+      <h1>Registre-se</h1>
+      <div class="other-register-format">
+        <div class="register-logo">
+          <img src="./assets/images/google-logo.png" alt="Logo do Google">
+        </div>
+        <div class="register-logo">
+          <img src="./assets/images/facebook-logo.png" alt="Logo do Facebook">
+        </div>
+        <div class="register-logo">
+          <img src="./assets/images/github-logo.webp" alt="Logo do GitHub">
+        </div>
+      </div>
+  
+      <form id="form-register" action="http://localhost:3000/auth/register" method="post">
+        <div class="input-content">
+          <label for="userName">Nome: </label>
+          <input type="text" name="userName" placeholder="Nome de Usuário" id="userName">
+        </div>
+  
+        <div class="password-div input-content">
+          <label for="password">Senha: </label>
+          <input type="password" name="password" placeholder="Senha de Usuário" id="password">
+          <i class="fa-solid fa-eye"></i>
+        </div>
+  
+        <div class="input-content">
+          <label for="email">Email: </label>
+          <input type="text" name="email" placeholder="Email de Usuário" id="email">
+        </div>
+  
+        <button type="submit">Registrar</button>
+
+        <p class="error-text display">testestestes</p>
+      </form>
+    </div>
+  </main>
+    
+  <script src="./assets/js/index.js"></script>
+</body>
+</html>
