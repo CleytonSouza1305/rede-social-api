@@ -33,9 +33,9 @@ module.exports = {
     
     if (!isValidPassword) throw new HttpError(400, 'Credenciais inválidas.')
     
-    const payload = { id: user.id, email: user,email }
+    const payload = { id: user.id, email: user.email }
     
-    const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1d' })
+    const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '7d' })
   
     res.status(200).json({ token })
   },
