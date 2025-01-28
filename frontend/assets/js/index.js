@@ -91,7 +91,7 @@ async function loginUser() {
       emailInput.value = '';
       passwordInput.value = '';
 
-      window.location.href = 'http://localhost:3000/feed'
+      window.location.href = '/frontend/assets/pages/feed.html'
     }
   } catch (error) {
     globalErrorText.textContent = error.message;
