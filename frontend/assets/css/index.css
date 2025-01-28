@@ -105,25 +105,12 @@ button[type="submit"]:hover {
   display: block;
 }
 
-.password-div {
-  position: relative;
-}
-
 .error-text {
   color: rgb(176, 18, 18);
   text-align: start;
   font-size: 1.1rem;
   padding: 0.5rem 0;
   font-weight: 500;
-}
-.password-div {
-  position: relative;
-}
-
-.password-div i {
-  position: absolute;
-  right: 0;
-  top: 50%;
 }
 
 @media (max-width: 500px) {

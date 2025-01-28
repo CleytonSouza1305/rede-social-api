@@ -9,9 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
   <main>
     <div class="content">
-      <h1>Registre-se</h1>
+      <h1 id="form-title">Registre-se</h1>
       <div class="other-register-format">
         <div class="register-logo">
           <img src="./assets/images/google-logo.png" alt="Logo do Google">
@@ -24,30 +25,36 @@
         </div>
       </div>
   
-      <form id="form-register" action="http://localhost:3000/auth/register" method="post">
-        <div class="input-content">
+      <form id="form-auth">
+        <div class="input-content content-name">
           <label for="userName">Nome: </label>
           <input type="text" name="userName" placeholder="Nome de Usuário" id="userName">
-        </div>
-  
-        <div class="password-div input-content">
-          <label for="password">Senha: </label>
-          <input type="password" name="password" placeholder="Senha de Usuário" id="password">
-          <i class="fa-solid fa-eye"></i>
+          <span id="nameError" style="color: red;"></span>
         </div>
   
         <div class="input-content">
           <label for="email">Email: </label>
           <input type="text" name="email" placeholder="Email de Usuário" id="email">
+          <span id="emailError" style="color: red;"></span>
         </div>
   
-        <button type="submit">Registrar</button>
-
-        <p class="error-text display">testestestes</p>
+        <div class="input-content">
+          <label for="password">Senha: </label>
+          <input type="password" name="password" placeholder="Senha de Usuário" id="password">
+          <span id="passwordError" style="color: red;"></span>
+        </div>
+  
+        <button type="submit" id="auth-button">Registrar</button>
+  
+        <p class="error-text display"></p>
       </form>
+  
+      <p id="have-account">
+        Já possui uma conta? <a href="#" id="toggle-form">Faça login</a>
+      </p>
     </div>
-  </main>
-    
-  <script src="./assets/js/index.js"></script>
+  </main>  
+
+  <script type="module" src="./assets/js/index.js"></script>
 </body>
 </html>
