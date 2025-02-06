@@ -9,7 +9,8 @@ const posts = [
     postId: '1', 
     userId: '1',
     postTitle: 'Primeiro Post', 
-    postContent: 'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem',
+    postImage: 'https://pm1.aminoapps.com/6929/74373da2c7de5b5e1448195e362372fddaec1bd6r1-720-554v2_uhq.jpg',
+    createdAt: new Date().toLocaleString(),
     likedBy: [],
     likes: 0,
     postCommit: []
@@ -23,19 +24,22 @@ module.exports = {
       userId: post.userId, 
       postTitle: post.postTitle,
       postContent: post.postContent,
+      postImage: post.postImage,
+      createdAt: post.createdAt,
       likes: post.likes,
       postCommit: post.postCommit
      }
     )),
 
-  createPost: (postTitle, postContent, userId) => {
+  createPost: (postTitle, userId, postImage) => {
     const newPost = {
       postId: uuid(), 
       userId,
       postTitle,
-      postContent,
+      postImage,
       likedBy: [],
       likes: 0,
+      createdAt: new Date().toLocaleString(),
       postCommit: []
     }
 

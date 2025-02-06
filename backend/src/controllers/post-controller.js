@@ -8,30 +8,31 @@ module.exports = {
   },
 
   createPostReq: (req, res) => {
-    const { postTitle, postContent } = req.body
-    if (typeof postTitle !== 'string' || typeof postContent !== 'string') {
+    const { postTitle, postImage } = req.body
+    if (typeof postTitle !== 'string') {
       throw new HttpError(400, 'Tipos de dados inválidos.')
     }
 
     const user = req.user
     if (!user) throw new HttpError(404, 'Usuário não registrado.')
     
-    const newPost = postModel.createPost(postTitle, postContent, user.id)
+    if (!postImage) {
+      const newPost = postModel.createPost(postTitle, user.id, '')
+      return res.json(newPost)
+    }
+    
+    const newPost = postModel.createPost(postTitle, user.id, postImage)
     res.json(newPost)
   },
 
   updatePostReq: (req, res) => {
     const { id } = req.params
-    const { postTitle, postContent } = req.body
+    const { postTitle } = req.body
 
     const updatedPost = {}
 
     if (postTitle && typeof postTitle === 'string') {
       updatedPost.postTitle = postTitle
-    }
-
-    if (postTitle && typeof postTitle === 'string') {
-      updatedPost.postContent = postContent
     }
 
     const update = postModel.updatePost(id, updatedPost)
