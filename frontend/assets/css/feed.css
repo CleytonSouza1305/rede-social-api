@@ -189,9 +189,16 @@ main {
   margin-bottom: 1rem;
 }
 
+.post-container .hide-commit .user-commit-post  p {
+  margin-top: 8px;
+  
+}
+
 .post-container .hide-commit .user-commit-post img {
   width: 30px;
   height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .see-commits {

@@ -98,6 +98,8 @@ function createPost(post, user) {
   const postFooter = document.createElement('div');
   postFooter.classList.add('footer');
   const likeButton = document.createElement('button');
+  likeButton.dataset.postid = post.id
+  likeButton.classList.add('like-buttons')
   const button = document.createElement('i');
   button.classList.add('fa-regular', 'fa-thumbs-up');
   likeButton.append(button);
@@ -179,7 +181,25 @@ function openCommit() {
   });
 }
 
-
-
 feedPosts()
 
+function likePost () {
+  const buttons = document.querySelectorAll('.like-buttons')
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', (ev) => {
+      const clickedBtn = 
+    })
+  })
+}
+
+async function likePostRequest(postId) {
+  const data = await fetch(`http://localhost:3000/feed/like/${postId}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`  
+    }
+  })
+
+  console.log(data)
+}
