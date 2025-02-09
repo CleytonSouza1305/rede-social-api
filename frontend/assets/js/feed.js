@@ -29,6 +29,7 @@ async function feedPosts() {
       }
 
       openCommit();
+      likePost()
 
     } catch (error) {
       window.location.href = '/frontend/index.html';
@@ -187,7 +188,8 @@ function likePost () {
   const buttons = document.querySelectorAll('.like-buttons')
   buttons.forEach((btn) => {
     btn.addEventListener('click', (ev) => {
-      const clickedBtn = 
+      const clickedBtn = ev.currentTarget.dataset.postid
+      likePostRequest(clickedBtn)
     })
   })
 }
@@ -197,7 +199,7 @@ async function likePostRequest(postId) {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwt}`  
+      'Authorization': `Bearer ${localStorage.getItem('token')}`  
     }
   })
 
