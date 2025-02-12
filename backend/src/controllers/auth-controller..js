@@ -37,7 +37,7 @@ module.exports = {
     
     const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '7d' })
   
-    res.status(200).json({ token })
+    res.status(200).json({ token, user:  user.id })
   },
 
   // GET /auth/users
