@@ -177,6 +177,9 @@ main {
 
 .post-container .hide-commit {
   margin-top: 2rem;
+  height: auto;
+  max-height: 170px;
+  overflow-y: scroll;
 }
 
 .post-container .hide-commit .user-commit-post {
@@ -206,6 +209,10 @@ main {
   font-size: 1rem;
   padding: 0.5rem;
   font-weight: 600;
+}
+
+.post-liked {
+  color: rgb(209, 96, 164);
 }
 
 .display {

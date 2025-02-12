@@ -83,6 +83,7 @@ async function loginUser() {
 
       const jwtToken = await response.json()
       localStorage.setItem('token', jwtToken.token)
+      localStorage.setItem('userId', jwtToken.user)
 
       globalErrorText.textContent = 'Login feito com sucesso!';
       globalErrorText.style.color = 'green';

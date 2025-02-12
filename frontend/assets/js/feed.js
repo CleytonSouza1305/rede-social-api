@@ -23,13 +23,31 @@ async function feedPosts() {
 
   if (token) {
     try {
+      const userId = localStorage.getItem('userId')
+      const currentUser = await getUserDate(userId, token)
+
+      const userImage = document.getElementById('user-photo')
+      userImage.src = currentUser.userPhoto
+
       for (let i = 0; i < data.length; i++) {
         const actualUser = await getUserDate(data[i].userId, token);
-        createPost(data[i], actualUser);
+        createPost(data[i], actualUser, currentUser);
       }
 
       openCommit();
       likePost()
+
+      const btns = document.querySelectorAll('.invit-commit')
+      btns.forEach((btn) => {
+        btn.addEventListener('click', (ev) => {
+          const invitId = ev.currentTarget.dataset.postId
+          const input = document.getElementById(invitId)
+          if (input.value !== '') {
+            makeCommit(invitId, token, input.value)
+            input.value = ''
+          }
+        })
+      })
 
     } catch (error) {
       window.location.href = '/frontend/index.html';
@@ -42,7 +60,7 @@ async function feedPosts() {
 let buttonCounter = 0;
 let divCounter = 0;
 
-function createPost(post, user) {
+function createPost(post, user, currentUser) {
   const container = document.querySelector('.post-content');
 
   const postContainer = document.createElement('div');
@@ -67,7 +85,7 @@ function createPost(post, user) {
   userName.textContent = user.userName;
 
   const userData = document.createElement('p');
-  userData.textContent = user.createdAt;
+  userData.textContent = post.createdAt;
 
   userInfo.append(userName, userData);
   userDataInfo.append(userPhoto, userInfo);
@@ -115,14 +133,19 @@ function createPost(post, user) {
   const inputCommit = document.createElement('input');
   inputCommit.type = 'text';
   inputCommit.placeholder = 'Comentar...';
+  inputCommit.id = post.id
+  inputCommit.classList.add('input-commit')
 
   const invitBtn = document.createElement('button');
+  invitBtn.classList.add('invit-commit');
+  invitBtn.dataset.postId = post.id
+
   const invitIcon = document.createElement('i');
   invitIcon.classList.add('fa-regular', 'fa-paper-plane');
   invitBtn.append(invitIcon);
 
   const userPhoto2 = document.createElement('img');
-  userPhoto2.src = user.userPhoto;
+  userPhoto2.src = currentUser.userPhoto;
 
   commitArea.append(userPhoto2, inputCommit, invitBtn);
 
@@ -182,26 +205,36 @@ function openCommit() {
   });
 }
 
-feedPosts()
-
-function likePost () {
+function likePost() {
+  const jwt = localStorage.getItem('token')
   const buttons = document.querySelectorAll('.like-buttons')
   buttons.forEach((btn) => {
     btn.addEventListener('click', (ev) => {
       const clickedBtn = ev.currentTarget.dataset.postid
-      likePostRequest(clickedBtn)
+      likePostRequest(clickedBtn, jwt)
     })
   })
 }
 
-async function likePostRequest(postId) {
+async function likePostRequest(postId, jwt) {
   const data = await fetch(`http://localhost:3000/feed/like/${postId}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`  
+      'Authorization': `Bearer ${jwt}`  
     }
   })
-
-  console.log(data)
 }
+
+async function makeCommit(postId, jwt, commit) {
+  const data = await fetch(`http://localhost:3000/feed/commit/${postId}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`  
+    },
+    body: JSON.stringify({ commit }), 
+  })
+}
+
+feedPosts()
