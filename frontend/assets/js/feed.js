@@ -216,7 +216,7 @@ function likePost() {
   })
 }
 
-async function likePostRequest(postId, jwt) {
+async function likePostRequest(postId, jwt, post) {
   const data = await fetch(`http://localhost:3000/feed/like/${postId}`, {
     method: 'POST',
     headers: { 
@@ -234,7 +234,7 @@ async function makeCommit(postId, jwt, commit) {
       'Authorization': `Bearer ${jwt}`  
     },
     body: JSON.stringify({ commit }), 
-  })
+  });
 }
 
 feedPosts()

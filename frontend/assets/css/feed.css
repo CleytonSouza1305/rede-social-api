@@ -5,6 +5,10 @@
   font-family: "Poppins", serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #f1f6fd;
   color: #333;
@@ -86,13 +90,23 @@ header #navgation-feed ul li button {
 }
 
 main {
+  position: relative;
   padding: 0 1.5rem;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.contents {
+  overflow: scroll;
+  height: 100vh;
 }
 
 .post-container {
   background-color: #FEFEFE;
   padding: 1rem 0.5rem;
   margin: 2rem 0;
+  width: 800px;
 }
 
 .post-container header {
@@ -166,7 +180,7 @@ main {
   border: 1px solid #000;
   background-color: transparent;
   border-radius: 9999px;
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem 0.7rem;
 }
 
 .post-container .commit-area button {
