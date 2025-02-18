@@ -27,6 +27,7 @@ module.exports = {
       postImage: post.postImage,
       createdAt: post.createdAt,
       likes: post.likes,
+      likedBy: post.likedBy,
       postCommit: post.postCommit
      }
     )),
