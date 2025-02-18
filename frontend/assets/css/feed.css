@@ -90,23 +90,14 @@ header #navgation-feed ul li button {
 }
 
 main {
-  position: relative;
   padding: 0 1.5rem;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-}
-
-.contents {
-  overflow: scroll;
-  height: 100vh;
 }
 
 .post-container {
   background-color: #FEFEFE;
   padding: 1rem 0.5rem;
   margin: 2rem 0;
-  width: 800px;
+  width: 100%;
 }
 
 .post-container header {

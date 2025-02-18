@@ -5,11 +5,11 @@ const getUserDate = async (id, jwt) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt}`  
     }
-  })
+  });
 
   if (data.ok) {
     const userData = await data.json();  
-    return userData
+    return userData;
   } else {
     console.error('Erro ao buscar dados do usuário:', data.status);
   }
@@ -23,11 +23,11 @@ async function feedPosts() {
 
   if (token) {
     try {
-      const userId = localStorage.getItem('userId')
-      const currentUser = await getUserDate(userId, token)
+      const userId = localStorage.getItem('userId');
+      const currentUser = await getUserDate(userId, token);
 
-      const userImage = document.getElementById('user-photo')
-      userImage.src = currentUser.userPhoto
+      const userImage = document.getElementById('user-photo');
+      userImage.src = currentUser.userPhoto;
 
       for (let i = 0; i < data.length; i++) {
         const actualUser = await getUserDate(data[i].userId, token);
@@ -35,19 +35,19 @@ async function feedPosts() {
       }
 
       openCommit();
-      likePost()
+      likePost();
 
-      const btns = document.querySelectorAll('.invit-commit')
+      const btns = document.querySelectorAll('.invit-commit');
       btns.forEach((btn) => {
         btn.addEventListener('click', (ev) => {
-          const invitId = ev.currentTarget.dataset.postId
-          const input = document.getElementById(invitId)
+          const invitId = ev.currentTarget.dataset.postId;
+          const input = document.getElementById(invitId);
           if (input.value !== '') {
-            makeCommit(invitId, token, input.value)
-            input.value = ''
+            makeCommit(invitId, token, input.value); 
+            input.value = '';
           }
-        })
-      })
+        });
+      });
 
     } catch (error) {
       window.location.href = '/frontend/index.html';
@@ -117,8 +117,8 @@ function createPost(post, user, currentUser) {
   const postFooter = document.createElement('div');
   postFooter.classList.add('footer');
   const likeButton = document.createElement('button');
-  likeButton.dataset.postid = post.id
-  likeButton.classList.add('like-buttons')
+  likeButton.dataset.postid = post.id;
+  likeButton.classList.add('like-buttons');
   const button = document.createElement('i');
   button.classList.add('fa-regular', 'fa-thumbs-up');
   likeButton.append(button);
@@ -133,12 +133,12 @@ function createPost(post, user, currentUser) {
   const inputCommit = document.createElement('input');
   inputCommit.type = 'text';
   inputCommit.placeholder = 'Comentar...';
-  inputCommit.id = post.id
-  inputCommit.classList.add('input-commit')
+  inputCommit.id = post.id;
+  inputCommit.classList.add('input-commit');
 
   const invitBtn = document.createElement('button');
   invitBtn.classList.add('invit-commit');
-  invitBtn.dataset.postId = post.id
+  invitBtn.dataset.postId = post.id;
 
   const invitIcon = document.createElement('i');
   invitIcon.classList.add('fa-regular', 'fa-paper-plane');
@@ -149,38 +149,34 @@ function createPost(post, user, currentUser) {
 
   commitArea.append(userPhoto2, inputCommit, invitBtn);
 
-  if (post.postCommit && post.postCommit.length > 0) {
-    const hidenCommitDiv = document.createElement('div');
-    hidenCommitDiv.classList.add('hide-commit', 'display');
-    hidenCommitDiv.id = `content-${divCounter++}`;
+  const hidenCommitDiv = document.createElement('div');
+  hidenCommitDiv.classList.add('hide-commit', 'display');
+  hidenCommitDiv.id = `content-${post.id}`;
 
-    const hideButton = document.createElement('button');
-    hideButton.textContent = 'Ver comentários.';
-    hideButton.classList.add('see-commits');
-    hideButton.id = buttonCounter++;
+  const hideButton = document.createElement('button');
+  hideButton.textContent = 'Ver comentários.';
+  hideButton.classList.add('see-commits');
+  hideButton.id = post.id;
 
-    post.postCommit.forEach(async (comentario) => {
-      const userCommitDivPost = document.createElement('div');
-      userCommitDivPost.classList.add('user-commit-post');
+  post.postCommit.forEach(async (comentario) => {
+    const userCommitDivPost = document.createElement('div');
+    userCommitDivPost.classList.add('user-commit-post');
 
-      const commit = document.createElement('p');
-      commit.textContent = comentario.commit;
+    const commit = document.createElement('p');
+    commit.textContent = comentario.commit;
 
-      const userActual = await getUserDate(comentario.userId, localStorage.getItem('token'));
-      const userPhoto = document.createElement('img');
-      userPhoto.src = userActual.userPhoto;
+    const userActual = await getUserDate(comentario.userId, localStorage.getItem('token'));
+    const userPhoto = document.createElement('img');
+    userPhoto.src = userActual.userPhoto;
 
-      userCommitDivPost.append(userPhoto, commit);
-      hidenCommitDiv.append(userCommitDivPost);
-    });
+    userCommitDivPost.append(userPhoto, commit);
+    hidenCommitDiv.append(userCommitDivPost);
+  });
 
-    postContainer.append(header, postBody, postFooter, commitArea, hideButton, hidenCommitDiv);
-  } else {
-    postContainer.append(header, postBody, postFooter, commitArea);
-  }
+  postContainer.append(header, postBody, postFooter, commitArea, hideButton, hidenCommitDiv);
+
   container.append(postContainer);
 }
-
 
 function openCommit() {
   const btns = document.querySelectorAll('.see-commits');
@@ -206,25 +202,46 @@ function openCommit() {
 }
 
 function likePost() {
-  const jwt = localStorage.getItem('token')
-  const buttons = document.querySelectorAll('.like-buttons')
+  const jwt = localStorage.getItem('token');
+  const buttons = document.querySelectorAll('.like-buttons');
+  
   buttons.forEach((btn) => {
     btn.addEventListener('click', (ev) => {
-      const clickedBtn = ev.currentTarget.dataset.postid
-      likePostRequest(clickedBtn, jwt)
-    })
-  })
+      const clickedBtn = ev.currentTarget;
+      likePostRequest(clickedBtn.dataset.postid, jwt, clickedBtn);
+    });
+  });
 }
 
-async function likePostRequest(postId, jwt, post) {
-  const data = await fetch(`http://localhost:3000/feed/like/${postId}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwt}`  
+async function likePostRequest(postId, jwt, buttonElement) {
+  const postData = await fetch(`http://localhost:3000/feed`).then((r) => r.json())
+  postData.forEach(async(post) => {
+    if (post.id === postId) {
+      const isLiked = post.likedBy
+      const userId = localStorage.getItem('userId');
+      const alreadyLiked = isLiked.some(like => String(like.id) === userId); 
+      
+      if (alreadyLiked) {
+        return; 
+      }
+
+      const data = await fetch(`http://localhost:3000/feed/like/${postId}`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwt}`  
+        }
+      });
+    
+      if (data.ok) {
+        const likeCountSpan = buttonElement.nextElementSibling;
+        likeCountSpan.textContent = parseInt(likeCountSpan.textContent, 10) + 1;
+      }
     }
   })
 }
+
+
 
 async function makeCommit(postId, jwt, commit) {
   const data = await fetch(`http://localhost:3000/feed/commit/${postId}`, {
@@ -235,6 +252,28 @@ async function makeCommit(postId, jwt, commit) {
     },
     body: JSON.stringify({ commit }), 
   });
+
+  if (data.ok) {
+    const commitArea = document.getElementById(`content-${postId}`);
+
+    if (commitArea) {
+      const newComment = document.createElement('div');
+      newComment.classList.add('user-commit-post');
+
+      const userCommit = document.createElement('p');
+      userCommit.textContent = commit;
+
+      const currentUser = await getUserDate(localStorage.getItem('userId'), jwt);
+      const userPhoto = document.createElement('img');
+      userPhoto.src = currentUser.userPhoto;
+
+      newComment.append(userPhoto, userCommit);
+
+      commitArea.append(newComment);
+    } else {
+      console.error(`Commit area with ID content-${postId} not found`);
+    }
+  }
 }
 
-feedPosts()
+feedPosts();
