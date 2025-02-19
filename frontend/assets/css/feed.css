@@ -12,6 +12,7 @@ html {
 body {
   background-color: #f1f6fd;
   color: #333;
+  position: relative;
 }
 
 ul {
@@ -216,9 +217,66 @@ main {
   font-weight: 600;
 }
 
-.post-liked {
-  color: rgb(209, 96, 164);
+footer {
+  width: 100%;
+  padding: 0 2rem;
+  position: fixed;
+  bottom: 0;
 }
+
+footer .footer-content {
+  background-color: rgb(222, 222, 222);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+footer .footer-content .section-navgation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .footer-content .section-navgation button {
+  background-color: rgb(7, 150, 233);
+  color: #f4f5f6;
+  width: 30px;
+  height: 30px;
+  font-size: 1.3rem;
+  border-radius: 50%;
+  padding: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+footer .footer-content .section-navgation span {
+  position: absolute;
+  bottom: 45px;  
+  background-color: #212121;
+  color: #f4f5f6;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #f4f5f6;
+  border-radius: 4px;
+  text-align: center;
+  visibility: hidden; 
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+footer .footer-content .section-navgation:hover span {
+  visibility: visible; 
+  opacity: 1;
+}
+
+footer .footer-content .section-navgation:hover button {
+  background-color: rgb(5, 121, 182);  
+}
+
+
 
 .display {
   display: none;
