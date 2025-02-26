@@ -9,7 +9,7 @@ const posts = [
     postId: '1', 
     userId: '1',
     postTitle: 'Primeiro Post', 
-    postImage: 'https://pm1.aminoapps.com/6929/74373da2c7de5b5e1448195e362372fddaec1bd6r1-720-554v2_uhq.jpg',
+    postImage: 'meme.jpg',
     createdAt: new Date().toLocaleString(),
     likedBy: [],
     likes: 0,

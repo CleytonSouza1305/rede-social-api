@@ -36,6 +36,7 @@ async function feedPosts() {
 
       openCommit();
       likePost();
+      newPost()
 
       const btns = document.querySelectorAll('.invit-commit');
       btns.forEach((btn) => {
@@ -102,17 +103,19 @@ function createPost(post, user, currentUser) {
 
   if (post.postImage) {
     const postImage = document.createElement('img');
-    postImage.src = post.postImage;
+    const baseURL = 'http://localhost:3000';
+    postImage.src = `${baseURL}/uploads/${post.postImage}`
+    
     const postTitle = document.createElement('h2');
     postTitle.textContent = post.postTitle;
-
+  
     postBody.append(postTitle, postImage);
   } else {
     const postTitle = document.createElement('h2');
     postTitle.textContent = post.postTitle;
-
+  
     postBody.append(postTitle);
-  }
+  }  
 
   const postFooter = document.createElement('div');
   postFooter.classList.add('footer');
@@ -241,8 +244,6 @@ async function likePostRequest(postId, jwt, buttonElement) {
   })
 }
 
-
-
 async function makeCommit(postId, jwt, commit) {
   const data = await fetch(`http://localhost:3000/feed/commit/${postId}`, {
     method: 'POST',
@@ -275,5 +276,79 @@ async function makeCommit(postId, jwt, commit) {
     }
   }
 }
+
+async function createPostReq(postTitle, postImage, jwt) { 
+  try {
+    const formData = new FormData();
+    formData.append('postTitle', postTitle);
+    formData.append('image', postImage); 
+
+    const response = await fetch(`http://localhost:3000/feed/create`, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${jwt}` 
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      errorModal(result.message);
+      return; // Garante que a função para aqui em caso de erro
+    }
+  } catch (error) {
+    console.log(`Impossível criar post, motivo: ${error.message}`);
+  }
+}
+
+function submitHandler(ev) {
+  ev.preventDefault();
+
+  const postTitle = document.getElementById('postTitle').value;
+  const postImage = document.getElementById('postImage').files[0]; 
+
+  const token = localStorage.getItem('token');
+  createPostReq(postTitle, postImage, token);
+
+  const modal = document.getElementById('postModal');
+  modal.classList.add('display');
+}
+
+function newPost() {
+  const btn = document.getElementById('create-post');
+  btn.addEventListener('click', () => {
+    const modal = document.getElementById('postModal');
+    modal.classList.remove('display');
+
+    document.querySelectorAll('.cancel-btn').forEach(cancelBtn => {
+      cancelBtn.addEventListener('click', () => {
+        modal.classList.add('display');
+      });
+    });
+
+    const form = document.getElementById('postForm');
+    form.removeEventListener('submit', submitHandler); 
+    form.addEventListener('submit', submitHandler);
+  });
+}
+
+function errorModal(message) {
+  Toastify({
+    text: message,
+    duration: 3000,
+    close: true,
+    gravity: "top", 
+    position: "right", 
+    stopOnFocus: true, 
+    style: {
+      background: "#e14242",
+      color: "#f3f4f5",
+      borderRadius: "6px",
+      fontWeight: 'bold',
+      padding: '0.5rem'
+    },
+  }).showToast();
+}
+
 
 feedPosts();

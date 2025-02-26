@@ -1,5 +1,7 @@
 const HttpError = require("../error/HttpError")
 const postModel = require("../models/post-model")
+const multer = require('multer')
+const path = require('path')
 
 module.exports = {
   feedContent: (req, res) => {
@@ -8,23 +10,20 @@ module.exports = {
   },
 
   createPostReq: (req, res) => {
-    const { postTitle, postImage } = req.body
+    const { postTitle } = req.body;
+    const image = req.file ? req.file.filename : ''
+
     if (typeof postTitle !== 'string') {
-      throw new HttpError(400, 'Tipos de dados inválidos.')
+      return res.status(400).json({ message: 'Tipos de dados inválidos.' });
     }
 
-    const user = req.user
-    if (!user) throw new HttpError(404, 'Usuário não registrado.')
-    
-    if (!postImage) {
-      const newPost = postModel.createPost(postTitle, user.id, '')
-      return res.json(newPost)
-    }
-    
-    const newPost = postModel.createPost(postTitle, user.id, postImage)
-    res.json(newPost)
+    const user = req.user;
+    if (!user) return res.status(404).json({ message: 'Usuário não registrado.' });
+
+    const newPost = postModel.createPost(postTitle, user.id, image);
+    return res.status(201).json(newPost); 
   },
-
+  
   updatePostReq: (req, res) => {
     const { id } = req.params
     const { postTitle } = req.body
